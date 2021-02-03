@@ -4,18 +4,22 @@ from PyQt5 import uic
 from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
+from ui import Ui_MainWindow
+
 
 class YellowCircleParam:
     def __init__(self, x, y, d):
         self.x = x
         self.y = y
         self.d = d
+        self.c = QColor(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
 
-class YellowCircle(QMainWindow):
+class YellowCircle(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('ui.ui', self)
+        # uic.loadUi('ui.ui', self)
+        self.setupUi(self)
         self.pushButton.clicked.connect(self.button_click)
         self.circles = []
         self.max_d = 99
@@ -27,8 +31,8 @@ class YellowCircle(QMainWindow):
         qp.end()
 
     def draw_flag(self, qp):
-        qp.setBrush(QColor(254, 229, 58))
         for i in self.circles:
+            qp.setBrush(i.c)
             qp.drawEllipse(i.x, i.y, i.d, i.d)
 
     def button_click(self):
